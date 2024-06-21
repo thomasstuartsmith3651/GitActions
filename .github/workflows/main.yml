@@ -31,7 +31,7 @@ jobs:
     - name: Build Docker image
       if: github.ref == 'refs/heads/master'
       run: |
-        docker build -t thomasstuartsmith3651/GitActions:${{ github.sha }} .
+        docker build -t thomasstuartsmith3651/gitactions:${{ github.sha }} .
 
     - name: Log in to GitHub Container Registry
       if: github.ref == 'refs/heads/master'
@@ -44,8 +44,8 @@ jobs:
     - name: Push Docker image
       if: github.ref == 'refs/heads/master'
       run: |
-        docker push thomasstuartsmith3651/GitActions:${{ github.sha }}
+        docker push thomasstuartsmith3651/gitactions:${{ github.sha }}
 
     - name: Clean up post-run
       if: always()
-      run: docker rmi thomasstuartsmith3651/GitActions:${{ github.sha }}
+      run: docker rmi thomasstuartsmith3651/gitactions:${{ github.sha }}
