@@ -6,7 +6,7 @@ FROM python:3.9-slim
 WORKDIR /app
 
 # Copy the dependencies file to the working directory
-COPY requirements.txt .
+COPY python flask
 
 # Install any dependencies
 RUN pip install --no-cache-dir -r requirements.txt
