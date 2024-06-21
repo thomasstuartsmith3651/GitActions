@@ -1,18 +1,20 @@
-﻿# Use an official lightweight Python image.
-# https://hub.docker.com/_/python
+﻿# Use an official Python runtime as a parent image
 FROM python:3.9-slim
 
-# Set the working directory in the container
+# Set the working directory to /app
 WORKDIR /app
 
-# Copy the dependencies file to the working directory
-COPY python flask
+# Copy the current directory contents into the container at /app
+COPY . /app
 
-# Install any dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+# Install any needed packages specified in requirements.txt
+RUN pip install flask pytest
 
-# Copy the content of the local src directory to the working directory
-COPY . .
+# Make port 5000 available to the world outside this container
+EXPOSE 5000
 
-# Specify the command to run on container start
-CMD [ "python", "app.py" ]
+# Define environment variable
+ENV NAME World
+
+# Run app.py when the container launches
+CMD ["python", "app.py"]
