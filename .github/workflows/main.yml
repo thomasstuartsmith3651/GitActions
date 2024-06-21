@@ -52,7 +52,7 @@ jobs:
 
     - name: Pull and run Docker image
       run: |
-        docker pull ghcr.io/${{ github.repository }}/my-flask-app:latest
-        docker run -d -p 5000:5000 ghcr.io/${{ github.repository }}/my-flask-app:latest
+        docker pull ghcr.io/thomasstuartsmith3651/gitactions/app:latest
+        docker run -d -p 5000:5000 ghcr.io/thomasstuartsmith3651/gitactions/app:latest
         sleep 10 # Wait for the app to start
         curl http://localhost:5000
