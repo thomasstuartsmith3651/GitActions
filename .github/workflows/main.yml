@@ -1,0 +1,51 @@
+name: Flask App CI/CD
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+
+    - name: Install dependencies
+      run: |
+        pip install flask pytest
+
+    - name: Run tests
+      run: |
+        pytest
+
+    - name: Build Docker image
+      if: github.ref == 'refs/heads/main'
+      run: |
+        docker build -t username/myflaskapp:${{ github.sha }} .
+
+    - name: Log in to GitHub Container Registry
+      if: github.ref == 'refs/heads/main'
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ github.repository_owner }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Push Docker image
+      if: github.ref == 'refs/heads/main'
+      run: |
+        docker push username/myflaskapp:${{ github.sha }}
+
+    - name: Clean up post-run
+      if: always()
+      run: docker rmi username/myflaskapp:${{ github.sha }}
