@@ -49,3 +49,10 @@ jobs:
     - name: Clean up post-run
       if: always()
       run: docker rmi ghcr.io/thomasstuartsmith3651/gitactions:${{ github.sha }}
+
+    - name: Pull and run Docker image
+      run: |
+        docker pull ghcr.io/${{ github.repository }}/my-flask-app:latest
+        docker run -d -p 5000:5000 ghcr.io/${{ github.repository }}/my-flask-app:latest
+        sleep 10 # Wait for the app to start
+        curl http://localhost:5000
